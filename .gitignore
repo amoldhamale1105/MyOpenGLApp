@@ -1,0 +1,6 @@
+#Ignore generated binaries and cmake and make files
+
+bin/*
+!.keep
+build/*
+!.keep
