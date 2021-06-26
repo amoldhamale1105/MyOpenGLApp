@@ -15,9 +15,15 @@ find_package (glm REQUIRED)
 find_package (GLEW REQUIRED STATIC)
 
 pkg_search_module(GLFW REQUIRED glfw3)
-include_directories(${GLFW_INCLUDE_DIRS})
+include_directories(${GLFW_INCLUDE_DIRS} include shaders)
 
-add_executable(OpenGLApp src/main.cpp)
+set(PROJECT_SOURCES 
+        src/Mesh.cpp
+        src/Shader.cpp
+        src/Window.cpp
+)
+
+add_executable(OpenGLApp src/main.cpp ${PROJECT_SOURCES})
 target_link_libraries (OpenGLApp 
         ${OPENGL_LIBRARIES} 
         ${GLFW_STATIC_LIBRARIES}
