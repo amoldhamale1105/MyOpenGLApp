@@ -21,6 +21,7 @@ set(PROJECT_SOURCES
         src/Mesh.cpp
         src/Shader.cpp
         src/Window.cpp
+        src/Camera.cpp
 )
 
 add_executable(OpenGLApp src/main.cpp ${PROJECT_SOURCES})
