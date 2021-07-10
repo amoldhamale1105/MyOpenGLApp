@@ -23,6 +23,7 @@ set(PROJECT_SOURCES
         src/Window.cpp
         src/Camera.cpp
         src/Texture.cpp
+        src/Light.cpp
 )
 
 add_executable(OpenGLApp src/main.cpp ${PROJECT_SOURCES})
