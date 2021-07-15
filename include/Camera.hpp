@@ -18,6 +18,8 @@ class Camera
 
         glm::mat4 calculateViewMatrix();
 
+        glm::vec3 getCameraPosition() const { return position; }
+
     private:
         glm::vec3 position;
         glm::vec3 front;
