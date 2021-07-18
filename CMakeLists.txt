@@ -25,6 +25,8 @@ set(PROJECT_SOURCES
         src/Texture.cpp
         src/Light.cpp
         src/Material.cpp
+        src/DirectionalLight.cpp
+        src/PointLight.cpp
 )
 
 add_executable(OpenGLApp src/main.cpp ${PROJECT_SOURCES})
