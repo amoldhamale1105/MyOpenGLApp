@@ -12,7 +12,8 @@ class Texture
         Texture(const std::string& fileLocation);
         ~Texture();
 
-        void LoadTexture();
+        bool LoadTexture();
+        bool LoadTextureA();
         void UseTexture();
         void ClearTexture();
 

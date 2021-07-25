@@ -34,7 +34,7 @@ std::string Shader::ReadFile(const char* fileLocation)
 
     if (!fileStream.is_open())
     {
-        std::cout<<"Could not read from "<<*fileLocation<<" because it doesn't exist!"<<std::endl;
+        std::cout<<"Could not read from "<<std::string(fileLocation)<<" because it doesn't exist!"<<std::endl;
         return 0;
     }
 
