@@ -19,6 +19,7 @@ class Shader
         ~Shader();
         void CreateFromString(const char* vertexCode, const char* fragmentCode);
         void CreateFromFiles(const char* vertexLocation, const char* fragmentLocation);
+        void CreateFromFiles(const char* vertexLocation, const char* geometryLocation, const char* fragmentLocation);
 
         std::string ReadFile(const char* fileLocation);
 
@@ -32,6 +33,8 @@ class Shader
         GLuint GetEyePositionLocation() const { return uniformEyePosition; }
         GLuint GetSpecularIntensityLocation() const { return uniformSpecularIntensity; }
         GLuint GetShininessLocation() const { return uniformShininess; }
+        GLuint GetOmniLightPosLocation() const { return uniformOmniLightPos; }
+        GLuint GetFarPlaneLocation() const { return uniformFarPlane; }
 
         void SetDirectionalLight(DirectionalLight* dLight);
         void SetPointLight(PointLight* pLight, unsigned int lightCount);
@@ -39,6 +42,7 @@ class Shader
         void SetTexture(GLuint textureUnit);
         void SetDirectionalShadowMap(GLuint textureUnit);
         void SetDirectionalLightTransform(glm::mat4* lTransform);
+        void SetLightMatrices(std::vector<glm::mat4> lightMatrices);
 
         void UseShader();
         void ClearShader();
@@ -49,7 +53,10 @@ class Shader
 
         GLuint shaderID, uniformProjection, uniformModel, uniformView, uniformEyePosition,
             uniformSpecularIntensity, uniformShininess, uniformTexture,
-            uniformDirectionalLightTransform, uniformDirectionalShadowMap;
+            uniformDirectionalLightTransform, uniformDirectionalShadowMap,
+            uniformOmniLightPos, uniformFarPlane;
+
+        GLuint uniformLightMatrices[6];
         
         struct 
         {
@@ -91,5 +98,8 @@ class Shader
         } uniformPointLight[MAX_POINT_LIGHTS];
 
         void CompileShader(const char* vertexCode, const char* fragmentCode);
+        void CompileShader(const char* vertexCode, const char* geometryCode, const char* fragmentCode);
         void AddShader(GLuint theProgram, const char* shaderCode, GLenum shaderType);
-};;
+
+        void CompileProgram();
+};

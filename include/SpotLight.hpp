@@ -10,7 +10,9 @@ class SpotLight : public PointLight
         SpotLight();
         ~SpotLight();
 
-        SpotLight(GLfloat red, GLfloat green, GLfloat blue, GLfloat aIntensity, GLfloat dIntensity,
+        SpotLight(GLuint shadowWidth, GLuint shadowHeight,
+                GLfloat near, GLfloat far,
+                GLfloat red, GLfloat green, GLfloat blue, GLfloat aIntensity, GLfloat dIntensity,
                 GLfloat xPos, GLfloat yPos, GLfloat zPos,
                 GLfloat xDir, GLfloat yDir, GLfloat zDir,
                 GLfloat con, GLfloat lin, GLfloat exp,

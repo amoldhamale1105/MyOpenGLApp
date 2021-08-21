@@ -35,6 +35,7 @@ set(PROJECT_SOURCES
         src/SpotLight.cpp
         src/Model.cpp
         src/ShadowMap.cpp
+        src/OmniShadowMap.cpp
 )
 
 add_executable(${PROJECT_NAME} src/main.cpp ${PROJECT_SOURCES})
