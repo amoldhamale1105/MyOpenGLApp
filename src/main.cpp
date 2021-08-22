@@ -211,6 +211,8 @@ void DirectionalShadowMapPass(DirectionalLight* light)
 	glm::mat4 lightTransform = light->CalculateLightTransform();
 	directionalShadowShader.SetDirectionalLightTransform(&lightTransform);
 
+	directionalShadowShader.Validate();
+
 	RenderScene();
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -232,6 +234,8 @@ void OmniShadowMapPass(PointLight* light)
 	glUniform3f(uniformOmniLightPos, light->GetPosition().x, light->GetPosition().y, light->GetPosition().z);
 	glUniform1f(uniformFarPlane, light->GetFarPlane());
 	omniShadowShader.SetLightMatrices(light->CalculateLightTransform());
+
+	omniShadowShader.Validate();
 
 	RenderScene();
 	
@@ -259,18 +263,20 @@ void RenderPass(glm::mat4 projectionMatrix, glm::mat4 viewMatrix)
 	glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
 	shaderList[0]->SetDirectionalLight(&mainLight);
-	shaderList[0]->SetPointLight(pointLight, pointLightCount);
-	shaderList[0]->SetSpotLight(spotLight, spotLightCount);
+	shaderList[0]->SetPointLight(pointLight, pointLightCount, 3, 0);
+	shaderList[0]->SetSpotLight(spotLight, spotLightCount, 3 + pointLightCount, pointLightCount);
 	glm::mat4 mainLightTransform = mainLight.CalculateLightTransform();
 	shaderList[0]->SetDirectionalLightTransform(&mainLightTransform);
 
-	mainLight.GetShadowMap()->Read(GL_TEXTURE1);
-	shaderList[0]->SetTexture(0);
-	shaderList[0]->SetDirectionalShadowMap(1);
+	mainLight.GetShadowMap()->Read(GL_TEXTURE2);
+	shaderList[0]->SetTexture(1);
+	shaderList[0]->SetDirectionalShadowMap(2);
 
 	glm::vec3 lowerLight = camera.getCameraPosition();
 	lowerLight.y -= 0.3f;
 	spotLight[0].SetFlash(lowerLight, camera.getCameraDirection());
+
+	shaderList[0]->Validate();
 
 	RenderScene();
 }
@@ -303,22 +309,22 @@ int main(int argc, char** argv)
 
 	mainLight = DirectionalLight(2048, 2048,
 								1.0f, 1.0f, 1.0f, 
-								0.1f, 0.3f,
+								0.0f, 0.1f,
 								0.0f, -15.0f, -10.0f);
 
 	pointLight[0] = PointLight(1024, 1024,
 								0.01f, 100.0f,
 								0.0f, 0.0f, 1.0f,
-								0.0f, 0.1f,
-								4.0f, 0.0f, 0.0f,
-								0.3f, 0.2f, 0.1f);
+								0.0f, 1.0f,
+								1.0f, 2.0f, 0.0f,
+								0.3f, 0.1f, 0.1f);
 	pointLightCount++;
 
 	pointLight[1] = PointLight(1024, 1024,
 								0.01f, 100.0f,
 								0.0f, 1.0f, 0.0f,
-								0.0f, 0.1f,
-								-4.0f, 2.0f, 0.0f,
+								0.0f, 1.0f,
+								-4.0f, 3.0f, 0.0f,
 								0.3f, 0.1f, 0.1f);
 	pointLightCount++;
 
@@ -342,7 +348,7 @@ int main(int argc, char** argv)
 							1.0f, 0.0f, 0.0f,
 							20.0f);
 
-	spotLightCount++;
+	//spotLightCount++;
 
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 100.0f);
 

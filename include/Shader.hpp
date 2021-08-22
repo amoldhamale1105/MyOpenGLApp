@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
+#include <stdio.h>
 
 #include<GL/glew.h>
 #include <glm/glm.hpp>
@@ -21,6 +22,8 @@ class Shader
         void CreateFromFiles(const char* vertexLocation, const char* fragmentLocation);
         void CreateFromFiles(const char* vertexLocation, const char* geometryLocation, const char* fragmentLocation);
 
+        void Validate();
+
         std::string ReadFile(const char* fileLocation);
 
         GLuint GetProjectionLocation() const;
@@ -37,8 +40,8 @@ class Shader
         GLuint GetFarPlaneLocation() const { return uniformFarPlane; }
 
         void SetDirectionalLight(DirectionalLight* dLight);
-        void SetPointLight(PointLight* pLight, unsigned int lightCount);
-        void SetSpotLight(SpotLight* sLight, unsigned int lightCount);
+        void SetPointLight(PointLight* pLight, unsigned int lightCount, unsigned int textureUnit, unsigned int offset);
+        void SetSpotLight(SpotLight* sLight, unsigned int lightCount, unsigned int textureUnit, unsigned int offset);
         void SetTexture(GLuint textureUnit);
         void SetDirectionalShadowMap(GLuint textureUnit);
         void SetDirectionalLightTransform(glm::mat4* lTransform);
@@ -96,6 +99,13 @@ class Shader
             GLuint uniformLinear;
             GLuint uniformExponent;
         } uniformPointLight[MAX_POINT_LIGHTS];
+
+        struct
+        {
+            GLuint shadowMap;
+            GLuint farPlane;
+        }uniformOmniShadowMap[MAX_SPOT_LIGHTS + MAX_POINT_LIGHTS];
+        
 
         void CompileShader(const char* vertexCode, const char* fragmentCode);
         void CompileShader(const char* vertexCode, const char* geometryCode, const char* fragmentCode);
