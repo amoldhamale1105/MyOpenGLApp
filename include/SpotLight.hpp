@@ -25,8 +25,12 @@ class SpotLight : public PointLight
 
         void SetFlash(glm::vec3 pos, glm::vec3 dir);
 
+        void Toggle() { isFlashlightOn = !isFlashlightOn; }
+
     private:
         glm::vec3 direction;
 
         GLfloat edge, procEdge;
+
+        bool isFlashlightOn{false};
 };

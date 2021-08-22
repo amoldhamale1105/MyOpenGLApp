@@ -365,6 +365,12 @@ int main(int argc, char** argv)
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 
+		if (mainWindow.getsKeys()[GLFW_KEY_L])
+		{
+			spotLight[0].Toggle();
+			mainWindow.getsKeys()[GLFW_KEY_L] = false;
+		}
+
 		DirectionalShadowMapPass(&mainLight);
 		for(size_t i = 0; i < pointLightCount; i++)
 		{
