@@ -36,6 +36,7 @@ set(PROJECT_SOURCES
         src/Model.cpp
         src/ShadowMap.cpp
         src/OmniShadowMap.cpp
+        src/Skybox.cpp
 )
 
 add_executable(${PROJECT_NAME} src/main.cpp ${PROJECT_SOURCES})
