@@ -1,25 +1,21 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.16)
 
 set(PROJECT_NAME MyOpenGLApp)
 
 project(${PROJECT_NAME} VERSION 1.0)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_STANDARD 11)
+if (WIN32)
+    set(CMAKE_PREFIX_PATH "C:/Program Files/vcpkg/installed/x64-windows/share")
+endif(WIN32)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
-set(CMAKE_MODULE_PATH /usr/local/lib/cmake /usr/local/lib/x86_64-linux-gnu/cmake)
-set(CMAKE_PREFIX_PATH /usr/local/lib/cmake/glfw3)
-set(CMAKE_EXE_LINKER_FLAGS 
-          "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath -Wl,/usr/local/lib")
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
-find_package (PkgConfig REQUIRED)
 find_package (OpenGL REQUIRED)
 find_package (glm REQUIRED)
 find_package (GLEW REQUIRED STATIC)
 find_package (assimp)
+find_package (glfw3 REQUIRED)
 
-pkg_search_module(GLFW REQUIRED glfw3)
 include_directories(${GLFW_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIRS} include shaders)
 
 set(PROJECT_SOURCES 
@@ -42,7 +38,6 @@ set(PROJECT_SOURCES
 add_executable(${PROJECT_NAME} src/main.cpp ${PROJECT_SOURCES})
 target_link_libraries (${PROJECT_NAME} 
         ${OPENGL_LIBRARIES} 
-        ${GLFW_STATIC_LIBRARIES}
+        glfw
         ${GLEW_LIBRARIES} 
-        ${ASSIMP_LIBRARIES}
-        X11 Xxf86vm pthread Xrandr Xinerama Xi Xcursor)
+        ${ASSIMP_LIBRARIES})
