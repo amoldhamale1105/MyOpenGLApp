@@ -6,11 +6,25 @@ Currently linked with the glew, glfw and glm libraries
 Please note that the glew and glfw libs are linked statically and thus necessitate installation in the /usr dir beforehand through their source code. Please refer to the CMakeLists.txt for a better understanding  
 
 ## Build instructions
+### Windows
+Install [vckpg](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started-vs) for Visual Studio  
+Open project folder in Microsoft Visual Studio  
+Update the `CMAKE_PREFIX_PATH` in CMakeLists.txt to match the installation location  
+Create CMake settings json for app and add path to vcpkg toolchain file (vcpkg.cmake) in CMake settings  
+Delete cache and congifure, followed by Build All/Rebuild All  
+
+### Linux (Ubuntu)
 Run `cmake ..` from the build dir or reconfigure all if loaded in VSCode  
 Run `make` or **build all** if loaded in VSCode  
+
+> [!NOTE]
+> You need to install required dependency packages with respective package manager on your OS like `vcpkg` or `apt` if you face errors while configuring with cmake.
+
 The generated binary must be present in the bin dir on a successful build
 
 ## Output
+Launch the MyOpenGLApp executable from the project root as `./bin/MyOpenGLApp` or `.\bin\MyOpenGLApp.exe`  
+
 The following scene should be visible in a window if the generated binary runs successfully with all its dependencies  
 Navigate the scene with keys A, W and D and the mouse for looking around  
 *A spotlight can be turned on for fun with the key L to test reflections and omnidirectional shadows*
